@@ -47,7 +47,7 @@ def qr_callback_handler(update, context):
 
 if __name__ == "__main__":
 
-    updater = Updater(token="2118043418:AAECCp0EIBqJaDgkfQeATEaSFn9YIpk9yF8", use_context=True)
+    updater = Updater(token="token", use_context=True)
 
     dp = updater.dispatcher
 
