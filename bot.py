@@ -1,3 +1,5 @@
+import os
+import telegram
 from telegram.ext import Updater, CommandHandler, ConversationHandler, CallbackQueryHandler, MessageHandler, Filters
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton, chataction
 
@@ -33,7 +35,11 @@ def start(update, context):
 
 if __name__ == "__main__":
 
-    updater = Updater(token="2118043418:AAECCp0EIBqJaDgkfQeATEaSFn9YIpk9yF8", use_context=True)
+    token = os.environ['TOKEN']
+
+    bot = telegram.Bot(token=token)
+
+    updater = Updater(token=token, use_context=True)
 
     dp = updater.dispatcher
 
