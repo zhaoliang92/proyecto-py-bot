@@ -1,31 +1,28 @@
 from telegram import *
-from telegram import chat
-from telegram.ext import *
+from telegram.ext import * 
 from requests import *
-from telegram.ext import messagehandler
 
-updater = Updater(token="2118043418:AAECCp0EIBqJaDgkfQeATEaSFn9YIpk9yF8", use_context=True)
+updater = Updater(token="2002660437:AAHmXhLwNJYfc0FmADZl4IImjcHVtvnhYww")
 dispatcher = updater.dispatcher
 
 randomPeopleText = "Random Person"
 randomImageText = "Random Image"
 
-randomPeopleUrl = "https://"
-randomPImageUrl = "https://"
+randomPeopleUrl = "https://thispersondoesnotexist.com/image"
+randomPImageUrl = "https://picsum.photos/1200"
 
 likes = 0
 dislikes = 0
 
-allowedUsernames = ["medkurin"]
+allowedUsernames = []
 
 def startCommand(update: Update, context: CallbackContext):
-    buttons = [[KeyboardButton("Random Image")], [KeyboardButton(randomPeopleText)]]
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Welcome to my bot!",
-    reply_markup=ReplyKeyboardMarkup(buttons))
+    buttons = [[KeyboardButton(randomImageText)], [KeyboardButton(randomPeopleText)]]
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Welcome to my bot!", reply_markup=ReplyKeyboardMarkup(buttons))
 
 def messageHandler(update: Update, context: CallbackContext):
     if update.effective_chat.username not in allowedUsernames:
-        context.bot.send_message(chat_id=update.effective_chat.id, text="You ar not allowed to use this bot")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="You are not allowed to use this bot")
         return
     if randomPeopleText in update.message.text:
         image = get(randomPeopleUrl).content
@@ -33,13 +30,10 @@ def messageHandler(update: Update, context: CallbackContext):
         image = get(randomPImageUrl).content
 
     if image:
-        context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto
-        (image, caption="")])
+        context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto(image, caption="")])
 
-        buttons = [[InlineKeyboardButton("!", callback_data="like")], 
-        [InlineKeyboardButton("?", callback_data="dislike")]]
-        context.bot.send_message(chat_id=update.effective_chat.id, 
-        reply_markup=InlineKeyboardButton(buttons), text="Did you like the image?")
+        buttons = [[InlineKeyboardButton("👍", callback_data="like")], [InlineKeyboardButton("👎", callback_data="dislike")]]
+        context.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons), text="Did you like the image?")
 
 def queryHandler(update: Update, context: CallbackContext):
     query = update.callback_query.data
@@ -47,17 +41,17 @@ def queryHandler(update: Update, context: CallbackContext):
 
     global likes, dislikes
 
-    if "likes" in query:
+    if "like" in query:
         likes +=1
-
-    if "dislikes" in query:
+    
+    if "dislike" in query:
         dislikes +=1
 
     print(f"likes => {likes} and dislikes => {dislikes}")
+
 
 dispatcher.add_handler(CommandHandler("start", startCommand))
 dispatcher.add_handler(MessageHandler(Filters.text, messageHandler))
 dispatcher.add_handler(CallbackQueryHandler(queryHandler))
 
 updater.start_polling()
-updater.idle()
