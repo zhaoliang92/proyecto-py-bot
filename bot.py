@@ -42,15 +42,6 @@ def start(update, context):
                 ])
         )
 
-def messageHandler(update: Update, context: CallbackContext):
-    if randomImageText in update.message.text:
-        image = get(randomPImageUrl).content
-
-    if image:
-        context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto
-        (image, caption="")])
-
-
 if __name__ == "__main__":
 
     token = os.environ['TOKEN']
