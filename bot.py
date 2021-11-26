@@ -1,7 +1,7 @@
 import os
 import telegram
-from telegram.ext import *
-from telegram import *
+from telegram.ext import Updater, CommandHandler, ConversationHandler, CallbackQueryHandler, MessageHandler, Filters
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton, chataction
 from requests import *
 
 INPUT_TEXT = 0
@@ -53,7 +53,6 @@ if __name__ == "__main__":
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(MessageHandler(Filters.text, messageHandler))
-
+    
     updater.start_polling()
     updater.idle()
