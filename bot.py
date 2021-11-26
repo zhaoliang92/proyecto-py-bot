@@ -5,6 +5,14 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton, chataction
 
 INPUT_TEXT = 0
 
+randomPeopleText = "Random Person"
+randomImageText = "Random Image"
+
+randomPeopleUrl = "https://"
+randomPImageUrl = "https://"
+
+allowedUsernames = ["medkurin"]
+
 
 def start(update, context):
 
@@ -24,13 +32,26 @@ def start(update, context):
     )
 
     update.message.reply_text(
-        text='"PHOTO Y NOMBRE DE LA BOTONERA SI DESEA"',
-        reply_markup=InlineKeyboardMarkup([
-            [button1],
-            [button2],
-            [button3]
-            ])
-    )
+            text='"PHOTO Y NOMBRE DE LA BOTONERA SI DESEA"',
+            reply_markup=InlineKeyboardMarkup([
+                [button1],
+                [button2],
+                [button3]
+                ])
+        )
+
+def messageHandler(update: Update, context: CallbackContext):
+    if update.effective_chat.username not in allowedUsernames:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="You ar not allowed to use this bot")
+        return
+    if randomPeopleText in update.message.text:
+        image = get(randomPeopleUrl).content
+    if randomImageText in update.message.text:
+        image = get(randomPImageUrl).content
+
+    if image:
+        context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto
+        (image, caption="")])
 
 
 if __name__ == "__main__":
