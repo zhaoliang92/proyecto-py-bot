@@ -27,15 +27,18 @@ def start(update, context):
         url="https://t.me/cheng_zhi"
     )
     
-    button4 = ([KeyboardButton("Random Image")]
-    reply_markup=ReplyKeyboardMarkup(buttons))
+    button4 = InlineKeyboardButton(
+        text="Foto",
+        image = get(randomPImageUrl).content
+    )
 
     update.message.reply_text(
             text='"PHOTO Y NOMBRE DE LA BOTONERA SI DESEA"',
             reply_markup=InlineKeyboardMarkup([
                 [button1],
                 [button2],
-                [button3]
+                [button3],
+                [button4]
                 ])
         )
 
