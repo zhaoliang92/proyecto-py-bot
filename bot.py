@@ -1,56 +1,36 @@
 import os
 import telegram
-from telegram.ext import *
-from telegram import *
-from requests import *
+from telegram.ext import Updater, CommandHandler, ConversationHandler, CallbackQueryHandler, MessageHandler, Filters
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton, chataction
 
-randomPeopleText = "Random Person"
-randomImageText = "Random Image"
+INPUT_TEXT = 0
 
-randomPeopleUrl = "https://"
-randomPImageUrl = "https://"
 
-likes = 0
-dislikes = 0
+def start(update, context):
 
-allowedUsernames = ["medkurin"]
+    button1 = InlineKeyboardButton(
+        text="Nombre canal o grupo",
+        url="https://www.canal-o-grupo-de-telegram.com"
+    )
 
-def startCommand(update, context):
-    buttons = [[KeyboardButton("Random Image")], [KeyboardButton(randomPeopleText)]]
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Welcome to my bot!",
-    reply_markup=ReplyKeyboardMarkup(buttons))
+    button2 = InlineKeyboardButton(
+        text="Nombre canal o grupo",
+        url="https://www.canal-o-grupo-de-telegram.com"
+    )
 
-def messageHandler(update, context):
-    if update.effective_chat.username not in allowedUsernames:
-        context.bot.send_message(chat_id=update.effective_chat.id, text="You ar not allowed to use this bot")
-        return
-    if randomPeopleText in update.message.text:
-        image = get(randomPeopleUrl).content
-    if randomImageText in update.message.text:
-        image = get(randomPImageUrl).content
+    button3 = InlineKeyboardButton(
+        text="Unete a la botonera",
+        url="https://t.me/cheng_zhi"
+    )
 
-    if image:
-        context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto
-        (image, caption="")])
-
-        buttons = [[InlineKeyboardButton("!", callback_data="like")], 
-        [InlineKeyboardButton("?", callback_data="dislike")]]
-        context.bot.send_message(chat_id=update.effective_chat.id, 
-        reply_markup=InlineKeyboardButton(buttons), text="Did you like the image?")
-
-def queryHandler(update, context):
-    query = update.callback_query.data
-    update.callback_query.answer()
-
-    global likes, dislikes
-
-    if "likes" in query:
-        likes +=1
-
-    if "dislikes" in query:
-        dislikes +=1
-
-    print(f"likes => {likes} and dislikes => {dislikes}")
+    update.message.reply_text(
+        text='"PHOTO Y NOMBRE DE LA BOTONERA SI DESEA"',
+        reply_markup=InlineKeyboardMarkup([
+            [button1],
+            [button2],
+            [button3]
+            ])
+    )
 
 
 if __name__ == "__main__":
@@ -63,9 +43,7 @@ if __name__ == "__main__":
 
     dp = updater.dispatcher
 
-    dp.add_handler(CommandHandler("start", startCommand))
-    dp.add_handler(MessageHandler(Filters.text, messageHandler))
-    dp.add_handler(CallbackQueryHandler(queryHandler))
-    
+    dp.add_handler(CommandHandler("start", start))
+
     updater.start_polling()
     updater.idle()
