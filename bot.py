@@ -33,6 +33,13 @@ def start(update, context):
     )
 
 
+def qr_command_handler(update, context):
+
+    update.message.reply_text("Env")
+
+    return INPUT_TEXT
+
+
 def qr_callback_handler(update, context):
 
     query = update.callback_query
@@ -55,7 +62,7 @@ if __name__ == "__main__":
 
     dp.add_handler(ConversationHandler(
         entry_points=[
-            #CommandHandler("qr", qr_command_handler),
+            CommandHandler("qr", qr_command_handler),
             CallbackQueryHandler(pattern="qr", callback=qr_callback_handler)
         ],
 
