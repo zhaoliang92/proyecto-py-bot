@@ -5,14 +5,9 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton, chataction
 
 INPUT_TEXT = 0
 
-randomPeopleText = "Random Person"
 randomImageText = "Random Image"
 
-randomPeopleUrl = "https://"
-randomPImageUrl = "https://"
-
-allowedUsernames = ["medkurin"]
-
+randomPImageUrl = "https://picsum.photos/200/300"
 
 def start(update, context):
 
@@ -30,6 +25,9 @@ def start(update, context):
         text="Unete a la botonera",
         url="https://t.me/cheng_zhi"
     )
+    
+    button4 = ([KeyboardButton("Random Image")]
+    reply_markup=ReplyKeyboardMarkup(buttons))
 
     update.message.reply_text(
             text='"PHOTO Y NOMBRE DE LA BOTONERA SI DESEA"',
@@ -41,11 +39,6 @@ def start(update, context):
         )
 
 def messageHandler(update: Update, context: CallbackContext):
-    if update.effective_chat.username not in allowedUsernames:
-        context.bot.send_message(chat_id=update.effective_chat.id, text="You ar not allowed to use this bot")
-        return
-    if randomPeopleText in update.message.text:
-        image = get(randomPeopleUrl).content
     if randomImageText in update.message.text:
         image = get(randomPImageUrl).content
 
