@@ -1,7 +1,8 @@
 import os
 import telegram
-from telegram.ext import Updater, CommandHandler, ConversationHandler, CallbackQueryHandler, MessageHandler, Filters
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton, chataction
+from telegram.ext import *
+from telegram import *
+from requests import *
 
 INPUT_TEXT = 0
 
