@@ -59,6 +59,7 @@ if __name__ == "__main__":
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(MessageHandler(Filters.text, messageHandler))
 
     updater.start_polling()
     updater.idle()
